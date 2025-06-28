@@ -891,7 +891,7 @@ export class ToolExecutor {
 
 						const absolutePath = path.resolve(this.cwd, relDirPath)
 
-						const [files, didHitLimit] = await listFiles(absolutePath, recursive, 200)
+						const [files, didHitLimit] = await listFiles(absolutePath, recursive, Number.MAX_SAFE_INTEGER)
 
 						const result = formatResponse.formatFilesList(
 							absolutePath,

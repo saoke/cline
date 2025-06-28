@@ -60,10 +60,13 @@ function buildIgnorePatterns(absolutePath: string): string[] {
 export async function listFiles(dirPath: string, recursive: boolean, limit: number): Promise<[string[], boolean]> {
 	const absolutePath = path.resolve(dirPath)
 
-	// Do not allow listing files in root or home directory
-	if (isRestrictedPath(absolutePath)) {
-		return [[], false]
-	}
+    // 移除路径限制检查
+    // if (isRestrictedPath(absolutePath)) {
+    //     return [[], false]
+    // }
+    
+    // 如果limit很大，使用无限制模式
+    const effectiveLimit = limit > 10000 ? Number.MAX_SAFE_INTEGER : limit
 
 	const options: Options = {
 		cwd: dirPath,
@@ -76,9 +79,9 @@ export async function listFiles(dirPath: string, recursive: boolean, limit: numb
 		suppressErrors: true,
 	}
 
-	const filePaths = recursive ? await globbyLevelByLevel(limit, options) : (await globby("*", options)).slice(0, limit)
+	const filePaths = recursive ? await globbyLevelByLevel(effectiveLimit, options) : (await globby("*", options)).slice(0, effectiveLimit)
 
-	return [filePaths, filePaths.length >= limit]
+	return [filePaths, filePaths.length >= effectiveLimit]
 }
 
 /*
@@ -121,7 +124,7 @@ async function globbyLevelByLevel(limit: number, options?: Options) {
 
 	// Timeout after 10 seconds and return partial results
 	const timeoutPromise = new Promise<string[]>((_, reject) => {
-		setTimeout(() => reject(new Error("Globbing timeout")), 10_000)
+		setTimeout(() => reject(new Error("Globbing timeout")), 60_000)
 	})
 	try {
 		return await Promise.race([globbingProcess(), timeoutPromise])

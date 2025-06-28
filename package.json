@@ -1,8 +1,8 @@
 {
-	"name": "claude-dev",
-	"displayName": "Cline",
-	"description": "Autonomous coding agent right in your IDE, capable of creating/editing files, running commands, using the browser, and more with your permission every step of the way.",
-	"version": "3.18.0",
+	"name": "dengfy3",
+	"displayName": "Cline-for-llm",
+	"description": "Support local configuration of large models, remove token restrictions, and keep everything synchronized with the official Cline platform",
+	"version": "0.0.1",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
@@ -11,10 +11,10 @@
 		"name": "Cline Bot Inc."
 	},
 	"license": "Apache-2.0",
-	"publisher": "saoudrizwan",
+	"publisher": "dengfy3",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cline/cline"
+		"url": "https://github.com/saoke/cline"
 	},
 	"homepage": "https://cline.bot",
 	"categories": [
