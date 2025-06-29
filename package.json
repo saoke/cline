@@ -2,7 +2,7 @@
 	"name": "dengfy3",
 	"displayName": "Cline-for-llm",
 	"description": "Support local configuration of large models, remove token restrictions, and keep everything synchronized with the official Cline platform",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
