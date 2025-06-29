@@ -820,9 +820,48 @@ export class McpHub {
 			},
 		)
 
+		// Transform the content to match our expected McpToolCallResponse type
+		const transformedContent = (result.content ?? []).map((item: any) => {
+			switch (item.type) {
+				case "text":
+					return {
+						type: "text" as const,
+						text: item.text,
+					}
+				case "image":
+					return {
+						type: "image" as const,
+						data: item.data,
+						mimeType: item.mimeType,
+					}
+				case "audio":
+					return {
+						type: "audio" as const,
+						data: item.data,
+						mimeType: item.mimeType,
+					}
+				case "resource":
+					return {
+						type: "resource" as const,
+						resource: {
+							uri: item.resource.uri,
+							mimeType: item.resource.mimeType,
+							text: item.resource.text,
+							blob: item.resource.blob,
+						},
+					}
+				default:
+					// Handle unknown content types by converting to text
+					return {
+						type: "text" as const,
+						text: JSON.stringify(item),
+					}
+			}
+		})
+
 		return {
 			...result,
-			content: result.content ?? [],
+			content: transformedContent,
 		}
 	}
 

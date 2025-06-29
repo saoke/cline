@@ -60,13 +60,13 @@ function buildIgnorePatterns(absolutePath: string): string[] {
 export async function listFiles(dirPath: string, recursive: boolean, limit: number): Promise<[string[], boolean]> {
 	const absolutePath = path.resolve(dirPath)
 
-    // 移除路径限制检查
-    // if (isRestrictedPath(absolutePath)) {
-    //     return [[], false]
-    // }
-    
-    // 如果limit很大，使用无限制模式
-    const effectiveLimit = limit > 10000 ? Number.MAX_SAFE_INTEGER : limit
+	// 移除路径限制检查
+	// if (isRestrictedPath(absolutePath)) {
+	//     return [[], false]
+	// }
+
+	// 如果limit很大，使用无限制模式
+	const effectiveLimit = limit > 10000 ? Number.MAX_SAFE_INTEGER : limit
 
 	const options: Options = {
 		cwd: dirPath,
@@ -79,7 +79,9 @@ export async function listFiles(dirPath: string, recursive: boolean, limit: numb
 		suppressErrors: true,
 	}
 
-	const filePaths = recursive ? await globbyLevelByLevel(effectiveLimit, options) : (await globby("*", options)).slice(0, effectiveLimit)
+	const filePaths = recursive
+		? await globbyLevelByLevel(effectiveLimit, options)
+		: (await globby("*", options)).slice(0, effectiveLimit)
 
 	return [filePaths, filePaths.length >= effectiveLimit]
 }
